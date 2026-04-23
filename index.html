@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シンガポールの歴史と成長 | Singapore History & Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Noto+Serif+JP:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════
+   ROOT & RESET
+══════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#070707;
+  --bg2:rgba(255,255,255,.025);
+  --paper:#EAE6DE;
+  --mid:rgba(234,230,222,.52);
+  --dim:rgba(234,230,222,.26);
+  --line:rgba(234,230,222,.08);
+  --gold:#C9943A;
+  --gold2:rgba(201,148,58,.12);
+  --topbar-h:58px;
+  --px:clamp(20px,5vw,72px);
+}
+body{
+  background:var(--bg);
+  color:var(--paper);
+  font-family:'Noto Serif JP','DM Sans',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  line-height:1.75;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:inherit;}
+
+/* grain */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════
+   REVEAL
+══════════════════════════════════ */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:translateY(0);}
+.rv.d1{transition-delay:.1s;}.rv.d2{transition-delay:.2s;}.rv.d3{transition-delay:.3s;}.rv.d4{transition-delay:.4s;}
+.rl{opacity:0;transform:translateX(-28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rl.in{opacity:1;transform:translateX(0);}
+.rr{opacity:0;transform:translateX(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rr.in{opacity:1;transform:translateX(0);}
+
+/* ══════════════════════════════════
+   TOP BAR (fixed, all breakpoints)
+══════════════════════════════════ */
+#topbar{
+  position:fixed;top:0;left:0;right:0;
+  height:var(--topbar-h);
+  z-index:500;
+  background:rgba(7,7,7,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;
+  padding:0 var(--px);
+  gap:12px;
+}
+.tb-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(13px,1.8vw,17px);
+  font-weight:300;letter-spacing:3px;
+  color:var(--paper);white-space:nowrap;
+  flex-shrink:0;
+}
+.tb-logo b{font-weight:700;color:var(--gold);}
+.tb-spacer{flex:1;}
+
+/* desktop nav links */
+#desktnav{
+  display:flex;gap:0;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+}
+.dn-lnk{
+  padding:6px 12px;color:var(--dim);background:none;border:none;
+  transition:color .2s;white-space:nowrap;
+  font-family:'DM Sans',sans-serif;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+}
+.dn-lnk:hover,.dn-lnk.on{color:var(--paper);}
+
+/* language switch */
+.lang-sw{
+  display:flex;align-items:center;
+  border:1px solid var(--line);
+  overflow:hidden;
+  flex-shrink:0;
+}
+.lang-btn{
+  padding:5px 14px;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);background:none;border:none;
+  transition:color .2s,background .2s;
+  font-family:'DM Sans',sans-serif;
+  white-space:nowrap;
+}
+.lang-btn.active{background:var(--gold);color:#fff;}
+.lang-btn:hover:not(.active){color:var(--paper);}
+
+/* hamburger — shown on mobile only */
+#hmbg{
+  display:none;
+  background:none;border:none;
+  color:var(--paper);font-size:22px;
+  padding:4px 0 4px 8px;
+  flex-shrink:0;
+}
+
+/* mobile drawer */
+#drawer{
+  position:fixed;
+  top:var(--topbar-h);left:0;right:0;
+  background:rgba(7,7,7,.98);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  z-index:499;
+  transform:translateY(-10px);
+  opacity:0;pointer-events:none;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .35s;
+}
+#drawer.open{
+  transform:translateY(0);
+  opacity:1;pointer-events:all;
+}
+.dr-item{
+  display:block;padding:13px var(--px);
+  border-bottom:1px solid var(--line);
+  font-size:13px;color:var(--mid);
+  cursor:pointer;
+  transition:color .2s,background .2s;
+  font-family:'Noto Serif JP',serif;
+}
+.dr-item:hover{color:var(--paper);background:rgba(255,255,255,.03);}
+.dr-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-weight:700;color:var(--gold);opacity:.5;
+  margin-right:10px;
+}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero{
+  position:relative;
+  height:100svh;min-height:620px;
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+  padding-top:var(--topbar-h);
+}
+#hbg{
+  position:absolute;inset:0;
+  background:url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Singapore%20Skyline-01.jpg') center 35%/cover no-repeat;
+  filter:brightness(.28) saturate(.8);
+  transform:scale(1.06);
+  transition:transform 10s ease;
+}
+#hbg.rdy{transform:scale(1);}
+.hgrad{
+  position:absolute;inset:0;
+  background:linear-gradient(175deg, transparent 20%, rgba(7,7,7,.6) 55%, var(--bg) 100%);
+}
+.h-in{
+  position:relative;z-index:2;
+  padding:0 var(--px) clamp(52px,8vh,96px);
+  width:100%;
+}
+.h-ey{
+  display:flex;align-items:center;gap:14px;
+  font-size:9px;letter-spacing:5px;color:rgba(201,148,58,.8);
+  text-transform:uppercase;margin-bottom:18px;
+  font-family:'DM Sans',sans-serif;
+}
+.h-ey::before{content:'';width:28px;height:1px;background:rgba(201,148,58,.5);}
+h1.ht{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(36px,6.5vw,88px);
+  font-weight:300;line-height:1.1;
+  color:var(--paper);
+  margin-bottom:10px;
+}
+h1.ht em{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;color:var(--gold);
+}
+.h-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(13px,1.8vw,20px);font-weight:300;
+  color:var(--mid);letter-spacing:4px;text-transform:uppercase;
+  margin-bottom:32px;
+}
+.h-stats{display:flex;gap:clamp(22px,4vw,50px);flex-wrap:wrap;margin-bottom:clamp(24px,4vh,48px);}
+.hs{border-top:1px solid var(--line);padding-top:12px;min-width:90px;}
+.hs-v{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3.2vw,38px);font-weight:700;
+  color:var(--gold);line-height:1;
+}
+.hs-l{font-size:9px;letter-spacing:2px;color:var(--dim);margin-top:5px;text-transform:uppercase;font-family:'DM Sans',sans-serif;}
+.scr{display:flex;align-items:center;gap:12px;font-size:9px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;font-family:'DM Sans',sans-serif;}
+.scl{width:44px;height:1px;background:var(--line);overflow:hidden;position:relative;}
+.scl::after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:var(--gold);animation:sl 2s ease infinite;}
+@keyframes sl{0%{left:-100%}100%{left:100%}}
+
+/* ══════════════════════════════════
+   SECTIONS
+══════════════════════════════════ */
+section{position:relative;z-index:1;}
+.sec{padding:clamp(76px,10vh,130px) var(--px);}
+.sec-alt{padding:clamp(76px,10vh,130px) var(--px);background:var(--bg2);}
+.inn{max-width:960px;margin:0 auto;}
+.inn-w{max-width:1100px;margin:0 auto;}
+
+/* chapter header */
+.ch-lbl{
+  font-size:9px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:12px;
+  font-family:'DM Sans',sans-serif;
+}
+.ch-t{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(24px,4vw,50px);font-weight:300;
+  color:var(--paper);line-height:1.2;margin-bottom:10px;
+}
+.ch-t em{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;color:var(--gold);
+}
+.ch-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:14px;
+  color:var(--dim);margin-bottom:48px;
+}
+.ch-rule{width:36px;height:1px;background:var(--gold);margin-bottom:48px;opacity:.6;}
+
+/* body text */
+.bp{font-size:14px;color:var(--mid);line-height:2;}
+.bp+.bp{margin-top:16px;}
+strong{font-weight:500;color:var(--paper);}
+
+/* grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);align-items:start;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,28px);}
+
+/* stat */
+.stat{border-top:1px solid var(--line);padding-top:16px;}
+.stat.gd{border-top-color:var(--gold);}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--paper);line-height:1;}
+.stat.gd .stat-n{color:var(--gold);}
+.stat-u{font-size:.4em;font-weight:300;color:var(--dim);}
+.stat-l{font-size:11px;color:var(--dim);margin-top:7px;line-height:1.6;font-family:'DM Sans',sans-serif;}
+
+/* ══════════════════════════════════
+   IMAGE WRAP
+══════════════════════════════════ */
+.iw{position:relative;overflow:hidden;}
+.iw img{width:100%;height:100%;object-fit:cover;filter:brightness(.55);transform:scale(1.05);transition:transform .8s ease,filter .8s ease;display:block;}
+.iw:hover img{transform:scale(1);filter:brightness(.45);}
+.iw-cap{position:absolute;bottom:0;left:0;right:0;padding:16px 16px 12px;background:linear-gradient(to top,rgba(7,7,7,.9) 0%,transparent 100%);}
+.iw-cl{font-size:8px;letter-spacing:3px;color:rgba(201,148,58,.7);text-transform:uppercase;margin-bottom:3px;font-family:'DM Sans',sans-serif;}
+.iw-cv{font-size:12px;color:var(--mid);}
+.iw-cr{font-size:9px;color:rgba(234,230,222,.2);font-family:'DM Sans',sans-serif;}
+
+/* ══════════════════════════════════
+   TIMELINE
+══════════════════════════════════ */
+.tl{border-left:1px solid var(--line);padding-left:28px;margin-left:10px;}
+.tli{position:relative;padding-bottom:28px;}
+.tli:last-child{padding-bottom:0;}
+.tli::before{content:'';position:absolute;left:-34px;top:5px;width:8px;height:8px;border-radius:50%;border:1px solid var(--gold);background:var(--bg);}
+.tl-yr{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:2px;margin-bottom:4px;}
+.tl-t{font-size:14px;font-weight:500;color:var(--paper);margin-bottom:5px;}
+.tl-b{font-size:13px;color:var(--mid);line-height:1.85;}
+
+/* ══════════════════════════════════
+   PULL QUOTE
+══════════════════════════════════ */
+.pq{border-left:2px solid var(--gold);padding:18px 26px;background:var(--gold2);margin:28px 0;}
+.pq-t{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(15px,2vw,21px);font-weight:300;
+  color:var(--paper);line-height:1.7;margin-bottom:10px;
+}
+.pq-cite{font-size:11px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;font-family:'DM Sans',sans-serif;}
+
+/* ══════════════════════════════════
+   DARK INFO CARD
+══════════════════════════════════ */
+.dk{border:1px solid var(--line);padding:22px 20px;background:rgba(255,255,255,.028);}
+.dk-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,148,58,.7);margin-bottom:8px;font-family:'DM Sans',sans-serif;}
+.dk-t{font-size:14px;font-weight:500;color:var(--paper);margin-bottom:8px;}
+.dk-b{font-size:13px;color:var(--mid);line-height:1.85;}
+
+/* ══════════════════════════════════
+   ACHIEVEMENT GRID
+══════════════════════════════════ */
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:32px;}
+.ach-item{background:var(--bg2);padding:24px 20px;border:1px solid var(--line);}
+.ach-icon{font-size:28px;margin-bottom:12px;}
+.ach-t{font-size:14px;font-weight:500;color:var(--paper);margin-bottom:8px;}
+.ach-b{font-size:13px;color:var(--mid);line-height:1.8;}
+
+/* ══════════════════════════════════
+   POLICY VISUAL (horizontal bars)
+══════════════════════════════════ */
+.pbar{display:flex;flex-direction:column;gap:14px;}
+.pb-row{display:flex;align-items:center;gap:14px;}
+.pb-lbl{font-size:12px;color:var(--mid);min-width:140px;flex-shrink:0;}
+.pb-track{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.pb-fill{height:100%;border-radius:3px;background:var(--gold);transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+.pb-val{font-size:12px;font-weight:500;color:var(--gold);min-width:60px;text-align:right;font-family:'DM Sans',sans-serif;}
+
+/* ══════════════════════════════════
+   LEARN ITEMS
+══════════════════════════════════ */
+.li{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);}
+.li:last-child{border-bottom:none;}
+.li-n{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:rgba(201,148,58,.2);line-height:1;flex-shrink:0;}
+.li-t{font-size:14px;font-weight:500;color:var(--paper);margin-bottom:6px;}
+.li-b{font-size:13px;color:var(--mid);line-height:1.85;}
+
+/* ══════════════════════════════════
+   MEMORIAL BANNER
+══════════════════════════════════ */
+.memorial{
+  position:relative;overflow:hidden;
+  padding:clamp(52px,8vh,88px) var(--px);
+}
+.mem-bg{
+  position:absolute;inset:0;
+  background:url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Official%20visit%20of%20Lee%20Kuan%20Yew%20to%20NZ%20in%20April%201975.jpg') center center/cover no-repeat;
+  filter:brightness(.18) saturate(.5);
+}
+.mem-inner{position:relative;z-index:2;max-width:720px;}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer{
+  padding:clamp(48px,7vh,68px) var(--px) 28px;
+  background:#040404;border-top:1px solid var(--line);
+  position:relative;z-index:1;
+}
+.ft-in{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:clamp(24px,4vw,52px);margin-bottom:40px;}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:3px;color:var(--paper);margin-bottom:8px;}
+.ft-logo b{color:var(--gold);font-weight:700;}
+.ft-desc{font-size:12px;color:var(--dim);line-height:1.8;max-width:210px;}
+.ft-ct{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-family:'DM Sans',sans-serif;}
+.ft-lnk{display:block;font-size:12px;color:var(--dim);padding:5px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:color .2s;}
+.ft-lnk:hover{color:var(--paper);}
+.ft-btm{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--line);font-size:10px;color:rgba(234,230,222,.15);}
+
+/* back to top */
+#btt{position:fixed;bottom:26px;right:26px;z-index:200;width:40px;height:40px;border:1px solid var(--line);background:rgba(7,7,7,.85);backdrop-filter:blur(12px);color:var(--dim);font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s,border-color .3s,color .3s;}
+#btt.show{opacity:1;pointer-events:all;}
+#btt:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media(max-width:860px){
+  #desktnav{display:none;}
+  #hmbg{display:block;}
+  .g2{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  .ach-grid{grid-template-columns:1fr 1fr;}
+  .ft-in{grid-template-columns:1fr 1fr;gap:28px;}
+}
+@media(max-width:560px){
+  .g3{grid-template-columns:1fr;}
+  .ach-grid{grid-template-columns:1fr;}
+  .pb-lbl{min-width:110px;font-size:11px;}
+  .ft-in{grid-template-columns:1fr;}
+  .ft-btm{flex-direction:column;gap:5px;text-align:center;}
+  h1.ht{font-size:clamp(32px,9vw,52px);}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<header id="topbar">
+  <div class="tb-logo">Singapore<b>History</b></div>
+  
+  <!-- Desktop nav -->
+  <nav id="desktnav">
+    <button class="dn-lnk" onclick="gs('s1')">戦争の悲劇</button>
+    <button class="dn-lnk" onclick="gs('s2')">建国の背景</button>
+    <button class="dn-lnk" onclick="gs('s3')">LKYの功績</button>
+    <button class="dn-lnk" onclick="gs('s4')">名言</button>
+    <button class="dn-lnk" onclick="gs('s5')">成長の歴史</button>
+    <button class="dn-lnk" onclick="gs('s6')">学ぶべきこと</button>
+  </nav>
+  
+  <div class="tb-spacer"></div>
+  
+  <!-- Language Switch -->
+  <div class="lang-sw">
+    <span class="lang-btn active">日本語</span>
+    <a href="singapore-history-en.html" class="lang-btn">Eng</a>
+  </div>
+  
+  <!-- Mobile hamburger -->
+  <button id="hmbg" onclick="toggleDr()">☰</button>
+</header>
+
+<!-- Mobile Drawer -->
+<div id="drawer">
+  <div class="dr-item" onclick="gs('s1')"><span class="dr-num">01</span>第二次世界大戦の悲劇</div>
+  <div class="dr-item" onclick="gs('s2')"><span class="dr-num">02</span>シンガポール建国の背景</div>
+  <div class="dr-item" onclick="gs('s3')"><span class="dr-num">03</span>リー・クアンユーの功績</div>
+  <div class="dr-item" onclick="gs('s4')"><span class="dr-num">04</span>リー・クアンユーの名言</div>
+  <div class="dr-item" onclick="gs('s5')"><span class="dr-num">05</span>世界第2位の一人あたりGDPへの道</div>
+  <div class="dr-item" onclick="gs('s6')"><span class="dr-num">06</span>シンガポールから学ぶこと</div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div id="hbg"></div>
+  <div class="hgrad"></div>
+  <div class="h-in">
+    <div class="h-ey rv in">Singapore History &amp; Growth</div>
+    <h1 class="ht rv in d1">
+      小さな<em>奇跡</em>の島<br>シンガポール<br>その歴史と成長
+    </h1>
+    <p class="h-sub rv in d2">From Tragedy to Triumph — 1819 to Present</p>
+    <div class="h-stats rv in d3">
+      <div class="hs"><div class="hs-v">1965</div><div class="hs-l">独立の年</div></div>
+      <div class="hs"><div class="hs-v">60年</div><div class="hs-l">でアジアの奇跡へ</div></div>
+      <div class="hs"><div class="hs-v">世界2位</div><div class="hs-l">一人あたりGDP</div></div>
+    </div>
+    <div class="scr rv in d4"><div class="scl"></div><span>Scroll</span></div>
+  </div>
+</section>
+
+<!-- ══ S1: 第二次世界大戦 ══ -->
+<section id="s1" class="sec">
+<div class="inn">
+  <div class="rv"><div class="ch-lbl">Chapter 01</div></div>
+  <div class="rv d1"><h2 class="ch-t">第二次世界大戦と<br><em>シンガポールの悲劇</em></h2></div>
+  <div class="rv d2"><p class="ch-sub">1942 — The Fall of Singapore & The Sook Ching Massacre</p></div>
+  <div class="rv d2"><div class="ch-rule"></div></div>
+
+  <div class="g2" style="margin-bottom:52px;">
+    <div>
+      <p class="bp rv">当時のシンガポールは<strong>イギリス海峡植民地</strong>として、「東洋のジブラルタル」と称される戦略拠点だった。1941年12月8日、日本軍はマレー半島北端コタバルに上陸。わずか55日間でマレー半島を縦断し、1942年2月15日、<strong>「難攻不落」と謳われたシンガポール要塞を陥落</strong>させた。</p>
+      <p class="bp rv">英軍司令官パーシヴァルは13万人以上の兵力を擁しながら降伏。チャーチル英首相はこれを<strong>「英国軍の歴史上最悪の惨事、最大の降伏」</strong>と記した。シンガポールは「昭南島（Syonan-to）」と改名され、3年8ヶ月の日本軍占領下に置かれた。</p>
+      <p class="bp rv">占領直後の1942年2月18日から約1ヶ月間、日本軍は「粛清（スック・チン）」作戦を実行した。<strong>18〜50歳の華人男性を一斉集合させ、「反日分子」の疑いをかけられた者を処刑</strong>。犠牲者数については日本側の証言では5,000〜6,000人、シンガポール側の調査では最大5万人以上と隔たりがある。のちに首相となるリー・クアンユーも当時18歳でこの集合場所に連行されたが、機転を利かせて脱出し、辛くも難を逃れた。</p>
+    </div>
+    <div>
+      <div class="iw rv" style="height:320px;">
+        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Civilian%20War%20Memorial%2C%20Singapore%20-%2020060717.jpg" alt="Civilian War Memorial Singapore" loading="lazy">
+        <div class="iw-cap">
+          <div class="iw-cl">War Memorial</div>
+          <div class="iw-cv">シンガポール市民戦没者記念碑（Civilian War Memorial）</div>
+          <div class="iw-cr">Photo: Wikimedia Commons</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key timeline -->
+  <div class="g2">
+    <div class="tl rv">
+      <div class="tli">
+        <div class="tl-yr">1941.12.8</div>
+        <div class="tl-t">太平洋戦争開戦・マレー上陸</div>
+        <div class="tl-b">日本軍はハワイ真珠湾攻撃と同時刻、マレー半島北部のコタバルに上陸。シンガポールへの空爆も開始。</div>
+      </div>
+      <div class="tli">
+        <div class="tl-yr">1942.2.15</div>
+        <div class="tl-t">シンガポール陥落・昭南島へ</div>
+        <div class="tl-b">パーシヴァル司令官が降伏。旧正月元旦と重なる日に「難攻不落の要塞」が10日余りで陥落した。「昭南島」と改名。</div>
+      </div>
+      <div class="tli">
+        <div class="tl-yr">1942.2.18〜</div>
+        <div class="tl-t">粛清（スック・チン）事件</div>
+        <div class="tl-b">華人男性を一斉集合させ、反日分子の疑いで処刑。数千〜数万人が犠牲。リー・クアンユーも集合場所に連行されるも脱出。</div>
+      </div>
+      <div class="tli">
+        <div class="tl-yr">1945.9.12</div>
+        <div class="tl-t">日本軍降伏・占領終了</div>
+        <div class="tl-b">終戦後、シンガポールは再びイギリス統治下に。しかし3年8ヶ月の占領は、独立運動と民族意識の芽生えを加速させた。</div>
+      </div>
+      <div class="tli">
+        <div class="tl-yr">1967</div>
+        <div class="tl-t">日本との血債協定締結</div>
+        <div class="tl-b">独立後の1967年、日本政府との間で約5,000万シンガポールドル相当の無償供与協定（血債協定）を締結。民間人戦没者記念碑が建立された。</div>
+      </div>
+    </div>
+    <div>
+      <div class="dk rv d1" style="margin-bottom:16px;">
+        <div class="dk-lbl">現地の記憶</div>
+        <div class="dk-t">「最も暗黒の時代」— The Darkest Years</div>
+        <div class="dk-b">シンガポール国立公文書館はこの時期を「近代史で最も暗黒の年」と位置づける。今でも「私の祖父は日本軍に殺された」という人に会うことがあるという。市内のウォー・メモリアル公園（市民戦没者記念碑）は4本の柱が4民族（中華・マレー・インド・ユーラシアン）の犠牲者を象徴している。</div>
+      </div>
+      <div class="dk rv d2">
+        <div class="dk-lbl">アレクサンドラ病院事件</div>
+        <div class="dk-t">病院内での虐殺</div>
+        <div class="dk-b">1942年2月、日本軍は白旗を掲げて降伏の意志を示していたアレクサンドラ軍事病院を占領し、患者・医療スタッフを含む約250人を殺害。国際法に反するこの行為は、シンガポールの戦争記憶の中でも特に深い傷として刻まれている。</div>
+      </div>
+      <div class="iw rv d3" style="height:240px;margin-top:16px;">
+        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Alexandra%20Hospital%2C%20Singapore%20(2025)%20-%20img%2019.jpg" alt="Alexandra Hospital Singapore" loading="lazy">
+        <div class="iw-cap">
+          <div class="iw-cl">Alexandra Hospital</div>
+          <div class="iw-cv">アレクサンドラ病院（現在の外観）</div>
+          <div class="iw-cr">Photo: Wikimedia Commons</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ S2: 建国の背景 ══ -->
+<section id="s2" class="sec-alt">
+<div class="inn">
+  <div class="rv"><div class="ch-lbl">Chapter 02</div></div>
+  <div class="rv d1"><h2 class="ch-t">シンガポール<br><em>建国の背景</em></h2></div>
+  <div class="rv d2"><p class="ch-sub">Independence Against All Odds — August 9, 1965</p></div>
+  <div class="rv d2"><div class="ch-rule"></div></div>
+
+  <div class="g2" style="margin-bottom:48px;">
+    <div>
+      <p class="bp rv">戦後、再びイギリスの支配に戻ったシンガポールだったが、<strong>植民地支配への反感と独立運動</strong>は加速した。1959年、リー・クアンユー率いる人民行動党（PAP）が選挙で圧勝し、シンガポールはイギリスの自治領として自治政府を樹立した。</p>
+      <p class="bp rv">リーは当初、独立よりも「マレーシア連邦への参加」が小国の生き残り策と考え、1963年にマレーシア連邦に合流した。しかし<strong>マレー人優遇政策を掲げるマレーシア中央政府と、人種的平等を訴えるシンガポールの対立</strong>は深まり、1964年には人種暴動が勃発。</p>
+      <p class="bp rv">1965年8月9日、マレーシア政府はシンガポールを連邦から<strong>事実上「追放」</strong>する形で切り離した。リー・クアンユーは記者会見でこの事実を発表した際、「天然資源も農地もなく、水さえもない島に放り出された」と涙をこらえながら語ったと伝えられる。これが<strong>シンガポール共和国の誕生</strong>だった。</p>
+    </div>
+    <div>
+      <div class="iw rv" style="height:280px;margin-bottom:16px;">
+        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Singapore%20Parliament-House-01.jpg" alt="Parliament House Singapore" loading="lazy">
+        <div class="iw-cap">
+          <div class="iw-cl">Statehood</div>
+          <div class="iw-cv">国家運営の中枢・シンガポール国会議事堂</div>
+          <div class="iw-cr">Photo: Wikimedia Commons</div>
+        </div>
+      </div>
+      <div class="dk rv d1">
+        <div class="dk-lbl">独立時の絶望的な状況</div>
+        <div class="dk-t">「奇跡」を起こすしかなかった</div>
+        <div class="dk-b">面積約720km²（東京23区と同程度）、天然資源ゼロ、飲料水さえマレーシアからの輸入に頼る極小都市国家。失業率は高く、マレーシア・インドネシアとの関係は険悪。当時の大多数の経済学者はシンガポールの独立維持を悲観していた。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="stat rv"><div class="stat-n">720<span class="stat-u">km²</span></div><div class="stat-l">独立時の国土面積<br>（現在は埋め立て等で約730km²）</div></div>
+    <div class="stat gd rv d1"><div class="stat-n">8.9<span class="stat-u">%</span></div><div class="stat-l">独立直後の公式失業率<br>（実際はさらに高いとされる）</div></div>
+    <div class="stat rv d2"><div class="stat-n">0<span class="stat-u">%</span></div><div class="stat-l">天然資源の自給率<br>水・食料・石油——すべて輸入頼り</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ S3: LKY功績 ══ -->
+<section id="s3" class="sec">
+<div class="inn-w">
+  <div class="rv" style="max-width:960px;margin:0 auto 8px;"><div class="ch-lbl">Chapter 03</div></div>
+  <div class="rv d1" style="max-width:960px;margin:0 auto 8px;"><h2 class="ch-t">初代首相<br><em>リー・クアンユー</em>の功績</h2></div>
+  <div class="rv d2" style="max-width:960px;margin:0 auto 48px;"><p class="ch-sub">Lee Kuan Yew — The Founding Father of Modern Singapore (1923–2015)</p></div>
+
+  <div class="g2" style="max-width:960px;margin:0 auto 48px;">
+    <div>
+      <div class="iw rv rl" style="height:340px;">
+        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Mr.%20Lee%20Kuan%20Yew%20-%20Jordi%20D%C3%ADez.jpg" alt="Lee Kuan Yew statue Singapore" loading="lazy">
+        <div class="iw-cap">
+          <div class="iw-cl">Lee Kuan Yew</div>
+          <div class="iw-cv">リー・クアンユーを題材にした彫像作品</div>
+          <div class="iw-cr">Photo: Wikimedia Commons</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="bp rv">リー・クアンユー（1923〜2015年）は、ケンブリッジ大学で首席を取った秀才であり、シンガポールの<strong>「建国の父」</strong>として国際的に称賛される。彼は1965年の独立から1990年までの25年間、首相として絶対的なリーダーシップを発揮し、漁村の小島を<strong>世界有数の経済・金融大国へと変貌</strong>させた。</p>
+      <p class="bp rv">リチャード・ニクソン元米大統領は著書の中で<strong>「マッカーサー元帥に匹敵する唯一の人物はシンガポールのリー・クアンユーだ」</strong>と賞賛。世界各国の指導者が彼に助言を求めてシンガポールを訪れた。</p>
+      <p class="bp rv">彼の政治哲学は<strong>「徹底した現実主義（Pragmatism）」</strong>——イデオロギーより結果を優先し、国民の生存と繁栄のためには民主主義の形式よりも実質的な成果を重視する「開発独裁」とも評された統治スタイルを確立した。</p>
+    </div>
+  </div>
+
+  <div class="ach-grid rv" style="max-width:960px;margin:0 auto;">
+    <div class="ach-item">
+      <div class="ach-icon">🏭</div>
+      <div class="ach-t">工業化・外資誘致</div>
+      <div class="ach-b">独立直後の失業問題解決のため、日本（IHI・セイコー・松下電器）をはじめ欧米多国籍企業を積極誘致。工業団地（ジュロン工業地区）を急速整備し、雇用を創出した。</div>
+    </div>
+    <div class="ach-item">
+      <div class="ach-icon">📚</div>
+      <div class="ach-t">教育・人材政策</div>
+      <div class="ach-b">英語を教育言語に統一しバイリンガル政策を徹底。PSC奨学金制度で優秀人材を国家が費用負担で育成し、卒業後は幹部候補として登用。教師の質向上にも注力した。</div>
+    </div>
+    <div class="ach-item">
+      <div class="ach-icon">🏠</div>
+      <div class="ach-t">公共住宅政策（HDB）</div>
+      <div class="ach-b">1960年に設立されたHDB（住宅開発庁）が大量の公共住宅を建設。現在国民の約80%がHDB住宅に暮らし、持家率88%を実現。住宅を「国民の国への利害関係」と位置づけた。</div>
+    </div>
+    <div class="ach-item">
+      <div class="ach-icon">⚖️</div>
+      <div class="ach-t">廉潔・反腐敗政策</div>
+      <div class="ach-b">「清廉なガバナンス」を国策の根幹に。大臣・公務員の給与を民間水準に合わせ高く設定し、腐敗のインセンティブを排除。国際腐敗認知指数（CPI）は常に世界上位。</div>
+    </div>
+    <div class="ach-item">
+      <div class="ach-icon">🌐</div>
+      <div class="ach-t">多民族・多言語政策</div>
+      <div class="ach-b">中華・マレー・インド・その他の多民族が共存する社会設計。4つの公用語（英語・中国語・マレー語・タミル語）を制定し、民族間の平等と国家への帰属意識を両立させた。</div>
+    </div>
+    <div class="ach-item">
+      <div class="ach-icon">✈️</div>
+      <div class="ach-t">金融・航空ハブ化</div>
+      <div class="ach-b">マラッカ海峡の戦略的位置を活かし、アジアの金融センター・航空ハブとして地位確立。シンガポール航空（SIA）の設立とチャンギ空港の整備で「東南アジアの玄関口」となった。</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ S4: 名言 ══ -->
+<section id="s4" class="memorial">
+  <div class="mem-bg"></div>
+  <div class="mem-inner">
+    <div class="rv"><div class="ch-lbl">Chapter 04</div></div>
+    <div class="rv d1"><h2 class="ch-t" style="color:var(--paper);">リー・クアンユーの<br><em>言葉たち</em></h2></div>
+    <div class="rv d2"><p class="ch-sub" style="color:var(--dim);">Words of Lee Kuan Yew — Wisdom That Built a Nation</p></div>
+    <div class="rv d2"><div class="ch-rule"></div></div>
+
+    <!-- Quote 1: Japan related -->
+    <div class="pq rv" style="margin-bottom:24px;">
+      <div class="pq-t">「我々は忘れることはできない。完全に許すこともできない。しかし最初に魂に安らぎを与え、次に日本人が誠実に謝罪を表している中では、多くの人の心にある苦しみを救うことができる。」</div>
+      <div class="pq-cite">— 市民戦没者記念碑 起工式スピーチ（1963年）　※日本占領に関連して</div>
+    </div>
+
+    <div class="pq rv" style="background:rgba(201,148,58,.08);border-left-color:var(--gold);">
+      <div class="pq-t" style="font-size:clamp(18px,3vw,28px);font-style:italic;color:var(--gold);">「We can forgive, but we will never forget.」</div>
+      <div class="pq-t" style="font-size:clamp(14px,1.8vw,18px);margin-top:10px;">「許そう、しかし決して忘れまい。」</div>
+      <div class="pq-cite">— リー・クアンユー（日本占領時代の犠牲者追悼碑除幕式）</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;margin-top:32px;">
+      <div class="pq rv">
+        <div class="pq-t">「シンガポールが成功するためには、世界中の人材を引きつけ、抱え込み、受け入れることができるように国際世界の中心地になる必要がある。」</div>
+        <div class="pq-cite">— 人材・移民政策について</div>
+      </div>
+      <div class="pq rv d1">
+        <div class="pq-t">「我々にあるのは戦略的な立地条件と、それを活かすことができる国民だけだ。だからこそ、他の国が必要とする国になる。」</div>
+        <div class="pq-cite">— 独立後の国家戦略について</div>
+      </div>
+      <div class="pq rv d2">
+        <div class="pq-t">「急速にテクノロジーが変化している時代に、革新と企業の精神を持った人物が新たな機会を捉え、新しい発想やビジネスを創造する人物が前に進む。」</div>
+        <div class="pq-cite">— イノベーションと人材について</div>
+      </div>
+      <div class="pq rv d3">
+        <div class="pq-t">「私はシンガポールが小さな、しかし模範的な国家になれると信じている——腐敗がなく、効率的で、誠実な社会。」</div>
+        <div class="pq-cite">— ガバナンスのビジョンについて</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S5: 成長の歴史と政策 ══ -->
+<section id="s5" class="sec-alt">
+<div class="inn">
+  <div class="rv"><div class="ch-lbl">Chapter 05</div></div>
+  <div class="rv d1"><h2 class="ch-t">世界第2位の一人あたりGDPへ<br><em>成長の歴史と政策</em></h2></div>
+  <div class="rv d2"><p class="ch-sub">From Third World to First — The Singapore Economic Miracle</p></div>
+  <div class="rv d2"><div class="ch-rule"></div></div>
+
+  <div class="iw rv" style="height:320px;margin-bottom:42px;">
+    <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Marina_Bay_Financial_Centre_and_The_Sail_%40_Marina_Bay%2C_Singapore_-_20110226.jpg" alt="Marina Bay Financial Centre Singapore" loading="lazy">
+    <div class="iw-cap">
+      <div class="iw-cl">Economic Growth</div>
+      <div class="iw-cv">金融都市へ成長した現在のシンガポール中心部</div>
+      <div class="iw-cr">Photo: Wikimedia Commons</div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:52px;">
+    <div>
+      <div class="tl rv">
+        <div class="tli">
+          <div class="tl-yr">1960年代</div>
+          <div class="tl-t">工業化・雇用創出フェーズ</div>
+          <div class="tl-b">EDB（経済開発庁）設立。ジュロン工業地区を造成し、日本・欧米多国籍企業を積極誘致。繊維・電子・造船業で雇用を創出。CPF（中央積立基金）を設立し国民の強制貯蓄を開始。</div>
+        </div>
+        <div class="tli">
+          <div class="tl-yr">1970〜80年代</div>
+          <div class="tl-t">高付加価値産業への移行</div>
+          <div class="tl-b">低賃金労働から石油精製・半導体・金融・航空産業へのシフト。英語教育・バイリンガル政策の確立。住宅・インフラの大規模整備。MRT（地下鉄）着工。</div>
+        </div>
+        <div class="tli">
+          <div class="tl-yr">1990年代〜2000年代</div>
+          <div class="tl-t">金融・知識集約型経済へ</div>
+          <div class="tl-b">アジア通貨危機（1997年）を軽微に乗り越え、金融センターとして飛躍。バイオメディカル・ICT・観光産業を育成。マリーナベイサンズ（IR）建設決定。</div>
+        </div>
+        <div class="tli">
+          <div class="tl-yr">2010年代〜現在</div>
+          <div class="tl-t">スマートネーション・持続可能成長</div>
+          <div class="tl-b">「スマートネーション」構想でデジタル化・AI活用を国策化。人口高齢化対策としてSkillsFuture（生涯学習）制度を導入。一人あたりGDPは日本の約2.5倍に。</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:15px;font-weight:500;color:var(--paper);margin-bottom:20px;letter-spacing:1px;" class="rv">主要政策別パフォーマンス</h3>
+      <div class="pbar rv">
+        <div class="pb-row">
+          <div class="pb-lbl">教育・人材政策</div>
+          <div class="pb-track"><div class="pb-fill" style="width:98%;"></div></div>
+          <div class="pb-val">PISA世界1位</div>
+        </div>
+        <div class="pb-row">
+          <div class="pb-lbl">廉潔度・反腐敗</div>
+          <div class="pb-track"><div class="pb-fill" style="width:95%;"></div></div>
+          <div class="pb-val">CPI 5位</div>
+        </div>
+        <div class="pb-row">
+          <div class="pb-lbl">ビジネス環境</div>
+          <div class="pb-track"><div class="pb-fill" style="width:92%;"></div></div>
+          <div class="pb-val">世界2〜3位</div>
+        </div>
+        <div class="pb-row">
+          <div class="pb-lbl">物流・港湾</div>
+          <div class="pb-track"><div class="pb-fill" style="width:88%;"></div></div>
+          <div class="pb-val">世界2位</div>
+        </div>
+        <div class="pb-row">
+          <div class="pb-lbl">金融センター</div>
+          <div class="pb-track"><div class="pb-fill" style="width:85%;"></div></div>
+          <div class="pb-val">アジア1位</div>
+        </div>
+        <div class="pb-row">
+          <div class="pb-lbl">国民持家率</div>
+          <div class="pb-track"><div class="pb-fill" style="width:88%;"></div></div>
+          <div class="pb-val">88%</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--dim);margin-top:12px;font-family:'DM Sans',sans-serif;" class="rv">出典: World Bank, OECD PISA 2022, Transparency International 2024, GFCIほか</p>
+    </div>
+  </div>
+
+  <!-- Key policies detailed -->
+  <h3 style="font-size:16px;font-weight:500;color:var(--paper);margin-bottom:24px;max-width:960px;" class="rv">5つの核心的成長政策</h3>
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <div class="dk rv">
+      <div class="dk-lbl">01 教育政策 — 人材こそが唯一の資源</div>
+      <div class="dk-t">バイリンガル教育・メリトクラシー・PSC奨学金</div>
+      <div class="dk-b">1987年より英語を全教科の教育言語に統一。成績優秀者にはPSC（公務委員会）奨学金で海外トップ大学への留学を国費で支援し、卒業後は省庁幹部に登用。PISA 2022で3教科全て世界1位。NUS・NTUはQS世界ランキング上位10位内（アジア1位・2位）を維持。</div>
+    </div>
+    <div class="dk rv d1">
+      <div class="dk-lbl">02 人材登用政策 — 「最高の人材を最高のポストに」</div>
+      <div class="dk-t">大臣・公務員の高給制度・能力主義の徹底</div>
+      <div class="dk-b">「优秀人材を民間に流さない」哲学で、大臣の年俸を民間企業CEOと同等水準（約S$110万）に設定。PSC奨学生はAdministrative Serviceに配属され、将来の省庁トップ・大臣への登竜門となる。成果連動型評価制度により昇進は純粋に実力で決定。</div>
+    </div>
+    <div class="dk rv d2">
+      <div class="dk-lbl">03 金融政策 — アジアの金融センターへ</div>
+      <div class="dk-t">MAS（通貨金融庁）による為替管理・低税率・金融規制の整備</div>
+      <div class="dk-b">シンガポールドルの安定を優先した為替政策、法人税17%の低税率、効率的な金融規制でグローバル金融機関を誘致。キャピタルゲイン税・相続税はゼロ。富裕層・ファミリーオフィスの集積が加速し、スイスを抜いてプライベートバンキングのアジア最大拠点に。</div>
+    </div>
+    <div class="dk rv d3">
+      <div class="dk-lbl">04 産業政策 — 常に「次の産業」を先読み</div>
+      <div class="dk-t">EDB（経済開発庁）による段階的産業高度化</div>
+      <div class="dk-b">1960年代の繊維→1970年代の石油精製・電子→1980年代の金融・航空→1990年代のバイオメディカル→2000年代のICT・観光（IR）→2010年代のフィンテック・AI→現在のスマートネーション。常に10〜20年先を見据えた産業転換を政策的に主導。</div>
+    </div>
+    <div class="dk rv">
+      <div class="dk-lbl">05 長期展望（プロジェクション）と適切な見直し</div>
+      <div class="dk-t">「コンセプト・プラン」による50年単位のマスタープラン</div>
+      <div class="dk-b">URA（都市再開発庁）が10年ごとに「コンセプト・プラン」を策定し、国土利用・住宅・交通・緑地を50年先まで計画。マリーナベイの埋め立て・MRTネットワーク拡張・スマートネーション構想などは数十年前から設計されていた。計画は定期的に見直され、実情に合わせて柔軟に修正される。</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ S6: 学ぶべきこと ══ -->
+<section id="s6" class="sec">
+<div class="inn">
+  <div class="rv"><div class="ch-lbl">Chapter 06</div></div>
+  <div class="rv d1"><h2 class="ch-t">シンガポールの歴史と成長<br><em>から学ぶべきこと</em></h2></div>
+  <div class="rv d2"><p class="ch-sub">Key Lessons — What Singapore's History Teaches the World</p></div>
+  <div class="rv d2"><div class="ch-rule"></div></div>
+
+  <div class="iw rv" style="height:300px;margin-bottom:42px;">
+    <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Merlion%20Park%20Singapore.jpg" alt="Merlion Park Singapore" loading="lazy">
+    <div class="iw-cap">
+      <div class="iw-cl">Modern Singapore</div>
+      <div class="iw-cv">歴史の先に築かれた現在のシンガポールの象徴</div>
+      <div class="iw-cr">Photo: Wikimedia Commons</div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:48px;">
+    <div>
+      <div class="li rv">
+        <div class="li-n">01</div>
+        <div>
+          <div class="li-t">「逆境」こそが最大の原動力になる</div>
+          <div class="li-b">独立時、シンガポールには資源も土地も水もなかった。しかしリー・クアンユーはこの絶望的条件を「だからこそ世界から必要とされる国になるしかない」という戦略的思考の起点に変えた。逆境は嘆く対象ではなく、設計の出発点となり得る。</div>
+        </div>
+      </div>
+      <div class="li rv d1">
+        <div class="li-n">02</div>
+        <div>
+          <div class="li-t">「人材」への投資が最も確実なROIをもたらす</div>
+          <div class="li-b">天然資源がないからこそ、シンガポールは徹底して「人」に投資した。PSC奨学金・教師の質向上・生涯学習制度——人材への投資は10〜20年後の国力として回収された。日本も「失われた30年」の根因の一つは人材投資の停滞にあると言われる。</div>
+        </div>
+      </div>
+      <div class="li rv d2">
+        <div class="li-n">03</div>
+        <div>
+          <div class="li-t">歴史の傷を「怨恨」ではなく「現実主義」で乗り越える</div>
+          <div class="li-b">リーは日本軍に殺されそうになりながらも、独立後は日本企業を積極誘致し、和解を国民に促した。「We can forgive, but we will never forget」——過去を忘れないことと、未来のために行動することは矛盾しない。この姿勢は個人にも組織にも応用できる知恵だ。</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="li rv">
+        <div class="li-n">04</div>
+        <div>
+          <div class="li-t">廉潔なガバナンスは「信頼」という最強の資産をつくる</div>
+          <div class="li-b">腐敗を排した透明性の高いガバナンスが、外国企業・投資家・人材に「シンガポールなら安心して事業ができる」という信頼を生んだ。信頼はすぐに経済的価値に転化する——これは国家にも企業にも通ずる真理だ。</div>
+        </div>
+      </div>
+      <div class="li rv d1">
+        <div class="li-n">05</div>
+        <div>
+          <div class="li-t">「常に次の産業」を見据える先見性が成長を持続させる</div>
+          <div class="li-b">繊維→石油精製→金融→バイオメディカル→ICT→AI・フィンテック——シンガポールは1度も「今の産業に安住」しなかった。EDB（経済開発庁）が常に10〜20年先の産業転換を主導した。現在の産業で成功したからこそ、次の挑戦に投資する勇気が必要だ。</div>
+        </div>
+      </div>
+      <div class="li rv d2">
+        <div class="li-n">06</div>
+        <div>
+          <div class="li-t">多様性は「弱点」ではなく「最強の競争力」になる</div>
+          <div class="li-b">中華・マレー・インド・欧米人が共存するシンガポールの多様性は当初、対立と分断のリスクだった。しかしリーはこれを「160カ国の人材と文化が集まる世界で最も多様な都市」として再定義し、グローバルビジネスのハブとなる競争力の源泉に転換した。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="pq rv" style="margin-top:16px;">
+    <div class="pq-t">
+      わずか60年で「第三世界から第一世界へ（From Third World to First）」——リー・クアンユーが自著のタイトルに込めたこの言葉が、シンガポールの奇跡を最もよく表している。資源ゼロの小島が世界第2位の一人あたりGDPを持つ国になった歴史は、「戦略的思考・廉潔なガバナンス・人材への投資」という普遍的な原則の実証実験だ。
+    </div>
+    <div class="pq-cite">— Singapore History &amp; Growth Guide 2025</div>
+  </div>
+
+  <!-- Back link -->
+  <div style="margin-top:48px;text-align:center;" class="rv">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);padding:12px 24px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);transition:border-color .3s,color .3s;font-family:'DM Sans',sans-serif;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)';" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--dim)';">
+      ← Singapore Life Guide Top
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-in">
+    <div>
+      <div class="ft-logo">Singapore<b>History</b></div>
+      <p class="ft-desc">戦争の悲劇から建国、リー・クアンユーの功績、世界第2位の一人あたりGDPへの歩みを解説するガイド。</p>
+    </div>
+    <div>
+      <div class="ft-ct">Contents</div>
+      <div class="ft-lnk" onclick="gs('s1')">01 — 第二次世界大戦の悲劇</div>
+      <div class="ft-lnk" onclick="gs('s2')">02 — シンガポール建国の背景</div>
+      <div class="ft-lnk" onclick="gs('s3')">03 — リー・クアンユーの功績</div>
+      <div class="ft-lnk" onclick="gs('s4')">04 — リー・クアンユーの名言</div>
+      <div class="ft-lnk" onclick="gs('s5')">05 — 世界第2位GDPへの道</div>
+      <div class="ft-lnk" onclick="gs('s6')">06 — 学ぶべきこと</div>
+    </div>
+    <div>
+      <div class="ft-ct">References</div>
+      <p class="ft-desc" style="max-width:100%;">
+        Wikipedia「日本占領時期のシンガポール」<br>
+        Wikipedia「シンガポール華僑粛清事件」<br>
+        Visit Singapore「ウォー・メモリアル公園」<br>
+        Wikipedia「リー・クアンユー」<br>
+        Lee Kuan Yew, <em>From Third World to First</em><br>
+        Photos: Wikimedia Commons (licensed files)
+      </p>
+    </div>
+  </div>
+  <div class="ft-btm">
+    <span>© 2025 Singapore Life Guide — History &amp; Growth</span>
+    <span>Images: Wikimedia Commons | Text: Historical sources</span>
+  </div>
+</footer>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ── Hero BG ── */
+window.addEventListener('load',()=>document.getElementById('hbg').classList.add('rdy'));
+
+/* ── Scroll ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('btt').classList.toggle('show',window.scrollY>600);
+  updateNav();
+});
+
+/* ── Drawer ── */
+function toggleDr(){
+  const d=document.getElementById('drawer');
+  const h=document.getElementById('hmbg');
+  const o=d.classList.toggle('open');
+  h.textContent=o?'✕':'☰';
+}
+function closeDr(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('hmbg').textContent='☰';
+}
+document.addEventListener('click',e=>{
+  const d=document.getElementById('drawer');
+  const h=document.getElementById('hmbg');
+  if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target))closeDr();
+});
+
+/* ── Scroll to section ── */
+function gs(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const off=document.getElementById('topbar')?.offsetHeight||58;
+  window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-off-20,behavior:'smooth'});
+  closeDr();
+}
+
+/* ── Desktop nav active ── */
+const SEC_IDS=['s1','s2','s3','s4','s5','s6'];
+function updateNav(){
+  let active=SEC_IDS[0];
+  SEC_IDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<window.innerHeight*.45)active=id;
+  });
+  document.querySelectorAll('.dn-lnk').forEach((btn,i)=>{
+    btn.classList.toggle('on',SEC_IDS[i]===active);
+  });
+}
+
+/* ── Reveal ── */
+const rvEls=document.querySelectorAll('.rv,.rl,.rr');
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.07});
+rvEls.forEach(el=>{if(!el.classList.contains('in'))ro.observe(el);});
+</script>
+</body>
+</html>
